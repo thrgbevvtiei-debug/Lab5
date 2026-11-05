@@ -11,7 +11,8 @@ class BlogController extends Controller
     // Публічний перелік (картки)
     public function index()
     {
-        $blogs = Blog::with(['category', 'author'])
+        $blogs = Blog::withTranslation()
+            ->with(['category', 'author'])
             ->orderByDesc('dt_created')
             ->paginate(6);
 
@@ -21,7 +22,8 @@ class BlogController extends Controller
     // Адміністративний перелік (таблиця)
     public function admin()
     {
-        $blogs = Blog::with('category')
+        $blogs = Blog::withTranslation()
+            ->with('category')
             ->orderByDesc('dt_created')
             ->paginate(10);
 
@@ -49,7 +51,11 @@ class BlogController extends Controller
 
     public function show(Blog $blog)
     {
-        $blog->load(['category', 'author']);
+        $blog->load([
+            'category',
+            'author',
+            'translations' => fn ($q) => $q->where('locale', app()->getLocale()),
+        ]);
 
         return view('blog.show', compact('blog'));
     }

@@ -4,4 +4,5 @@
 return [
     'uk' => 'Українська',
     'en' => 'English',
+    'pl' => 'Polski',
 ];

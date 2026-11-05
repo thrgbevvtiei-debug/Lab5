@@ -20,7 +20,7 @@
         @forelse ($blogs as $i => $blog)
             <tr>
                 <td>{{ $blogs->firstItem() + $i }}</td>
-                <td><a href="{{ route('blog.show', $blog) }}">{{ $blog->title }}</a></td>
+                <td><a href="{{ route('blog.show', $blog) }}">{{ $blog->t_title }}</a></td>
                 <td>{{ $blog->category?->category_name ?? '—' }}</td>
                 <td>{{ $blog->dt_created->format('d.m.Y') }}</td>
                 <td class="d-flex gap-2">

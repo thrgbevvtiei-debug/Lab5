@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,13 +10,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('cars.index') }}">Автосалон</a>
+
         <div class="navbar-nav flex-row gap-3">
             <a class="nav-link {{ request()->routeIs('cars.*') ? 'active' : '' }}"
                href="{{ route('cars.index') }}">Автомобілі</a>
             <a class="nav-link {{ request()->routeIs('countries.*') ? 'active' : '' }}"
                href="{{ route('countries.index') }}">Країни</a>
+            <a class="nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}"
+               href="{{ route('blog.index') }}">Блог</a>
             <a class="nav-link {{ request()->routeIs('stats.*') ? 'active' : '' }}"
                href="{{ route('stats.pages') }}">Статистика</a>
+        </div>
+
+        <div class="ms-auto d-flex gap-2">
+            @foreach (config('locales') as $code => $name)
+                <a class="btn btn-sm {{ app()->getLocale() === $code ? 'btn-light' : 'btn-outline-light' }}"
+                   href="{{ request()->fullUrlWithQuery(['lang' => $code]) }}"
+                   title="{{ $name }}">{{ strtoupper($code) }}</a>
+            @endforeach
         </div>
     </div>
 </nav>

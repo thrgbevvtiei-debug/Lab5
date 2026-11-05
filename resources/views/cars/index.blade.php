@@ -32,6 +32,7 @@
                 <th>#</th>
                 <th>Марка</th>
                 <th>Модель</th>
+                <th>Назва ({{ strtoupper(app()->getLocale()) }})</th>
                 <th>Рік</th>
                 <th>Ціна, $</th>
                 <th>Пробіг, км</th>
@@ -50,6 +51,12 @@
                             {{ $car->model }}
                         </a>
                     </td>
+                    <td>
+                        {{ $car->title }}
+                        @if ($car->isFallback())
+                            <span class="badge bg-warning text-dark">{{ strtoupper(config('app.fallback_locale')) }}</span>
+                        @endif
+                    </td>
                     <td>{{ $car->year }}</td>
                     <td>{{ number_format($car->price, 0, '.', ' ') }}</td>
                     <td>{{ number_format($car->mileage, 0, '.', ' ') }}</td>
@@ -61,7 +68,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="9" class="text-center text-muted">Автомобілі не знайдено.</td>
+                    <td colspan="10" class="text-center text-muted">Автомобілі не знайдено.</td>
                 </tr>
             @endforelse
             </tbody>

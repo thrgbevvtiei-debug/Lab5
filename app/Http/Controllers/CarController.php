@@ -10,7 +10,7 @@ class CarController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Car::query();
+        $query = Car::query()->withTranslation();
 
         // Фільтрація: якщо brand немає в запиті, показуємо всі авто
         if ($request->filled('brand')) {
@@ -42,6 +42,13 @@ class CarController extends Controller
 
     public function show(Car $car)
     {
+        $car->load([
+            'translations' => fn ($q) => $q->whereIn(
+                'locale',
+                array_unique([app()->getLocale(), config('app.fallback_locale')])
+            ),
+        ]);
+
         return view('cars.show', compact('car'));
     }
 

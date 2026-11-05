@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $car->brand . ' ' . $car->model)
+@section('title', $car->title)
 
 @section('content')
     <h1 class="h3 mb-3">{{ $car->brand }} {{ $car->model }}</h1>
@@ -11,6 +11,25 @@
     <p><strong>Тип палива:</strong> {{ $car->fuel_type->value }}</p>
     <p><strong>Коробка передач:</strong> {{ $car->transmission->value }}</p>
     <p><strong>Колір:</strong> {{ $car->color ?? '—' }}</p>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h2 class="h4">{{ $car->title }}</h2>
+
+            @if ($car->isFallback())
+                <p class="text-warning small mb-2">
+                    Переклад мовою «{{ strtoupper(app()->getLocale()) }}» відсутній,
+                    показано основну мову.
+                </p>
+            @endif
+
+            <p class="mb-3">{{ $car->description ?? '—' }}</p>
+
+            <a href="{{ route('cars.translations.edit', $car) }}" class="btn btn-sm btn-outline-primary">
+                Редагувати переклади
+            </a>
+        </div>
+    </div>
 
     <div class="d-flex gap-2 mt-3">
         <a href="{{ route('cars.edit', $car) }}" class="btn btn-primary">Редагувати</a>
